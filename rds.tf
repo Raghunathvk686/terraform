@@ -7,7 +7,9 @@ resource "aws_db_subnet_group" "terraform-dbgroup" {
   }
 }
 
-
+variable "Database_name" {}
+variable "Username" {}
+variable "password" {}
 
 
 resource "aws_db_instance" "default" {
@@ -17,9 +19,9 @@ resource "aws_db_instance" "default" {
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
   identifier           = "my-terraform-db"
-  name                 = "mydb"
-  username             = "foo"
-  password             = "foobarbaz"
+  name                 = "${var.Database_name}"
+  username             = "${var.Username}"
+  password             = "${var.password}"
   parameter_group_name = "default.mysql5.7"
   db_subnet_group_name = "${aws_db_subnet_group.terraform-dbgroup.name}"
   vpc_security_group_ids = ["${aws_security_group.sg.id}"]
